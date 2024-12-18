@@ -1,30 +1,33 @@
 import { defineStore } from 'pinia'
 import { ref } from 'vue'
-import type { ICustomer } from '@/modules/customers/domain/core/CustomersEntity'
+import type {
+  ICustomer,
+  IProduct,
+} from '@/modules/customers/domain/core/CustomersEntity'
 
 export const useCustomersResponse = defineStore('useCustomersResponse', () => {
   const items = ref<Partial<ICustomer>[]>([])
   const loading = ref<boolean>(false)
-
+  const products = ref<IProduct[]>([])
   const toggleLoading = () => (loading.value = !loading.value)
-
-  /**
-   * Required: this methods sets the items in the composable, so it can apply filters, sorting and pagination over this items
-   * @param Object collection
-   */
 
   const setResponse = ({ collection }: { collection: ICustomer[] }): void => {
     items.value = collection
   }
 
   const selected = ref<ICustomer | undefined>()
-  const setSelected = (custom?: ICustomer) => {
-    selected.value = custom
+  const setSelected = (customer: ICustomer & { products?: IProduct[] }) => {
+    selected.value = customer
+    if (customer.products) {
+      products.value = customer.products
+    }
   }
+
   return {
     items,
-    selected,
     loading,
+    products,
+    selected,
     toggleLoading,
     setResponse,
     setSelected,

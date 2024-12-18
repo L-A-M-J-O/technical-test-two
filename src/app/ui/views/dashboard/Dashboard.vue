@@ -4,14 +4,11 @@
     <div v-if="customersStore.loading">Cargando clientes...</div>
     <ul v-else>
       <li v-for="customer in customersStore.items" :key="customer.customerId">
-        {{ customer.givenName }} {{ customer.familyName1 }}
+        <router-link :to="`/customers/${customer.customerId}`">
+          {{ customer.givenName }} {{ customer.familyName1 }}
+        </router-link>
       </li>
     </ul>
-    <div v-if="customersStore.selected">
-      <h2>Cliente Seleccionado:</h2>
-      <p>Nombre: {{ customersStore.selected.givenName }}</p>
-      <p>Email: {{ customersStore.selected.email }}</p>
-    </div>
   </div>
 </template>
 

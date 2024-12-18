@@ -14,26 +14,19 @@ app.get('/customers', (req, res) => {
   res.json(db.customers)
 })
 
-app.get('/products', (req, res) => {
-  res.json(db.products)
-})
-
 app.get('/customers/:id', (req, res) => {
-  const customerId = req.params.id
-  const customer = db.customers.find((c) => c.customerId === customerId)
-
+  const { id } = req.params
+  const customer = customers.find((c) => c.customerId === id)
   if (!customer) {
-    return res.status(404).json({ message: 'Customer not found' })
+    return res.status(404).json({ error: 'Cliente no encontrado' })
+  }
+  const customerProducts = products.filter((p) => p.customerId === id)
+  const customerWithProducts = {
+    ...customer,
+    products: customerProducts,
   }
 
-  const associatedProducts = db.products.filter(
-    (p) => p.customerId === customerId
-  )
-
-  res.json({
-    ...customer,
-    products: associatedProducts,
-  })
+  res.json(customerWithProducts)
 })
 
 const PORT = process.env.PORT || 3000

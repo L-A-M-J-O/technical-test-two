@@ -29,4 +29,17 @@ export class CustomersBloc {
       this.store.toggleLoading()
     }
   }
+
+  async getCustomerById(id: string): Promise<void> {
+    this.store.toggleLoading()
+
+    try {
+      const customer = await this.useCase.getById(id)
+      this.store.setSelected(customer)
+    } catch (e) {
+      console.error('Error al obtener el cliente:', e)
+    } finally {
+      this.store.toggleLoading()
+    }
+  }
 }
