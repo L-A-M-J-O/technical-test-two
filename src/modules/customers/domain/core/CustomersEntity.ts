@@ -1,4 +1,4 @@
-export interface Customer {
+export interface ICustomer {
   _id: number
   docType: string
   docNum: string
@@ -9,7 +9,7 @@ export interface Customer {
   phone: string
 }
 
-export interface Product {
+export interface IProduct {
   _id: number
   productName: string
   mbSpeed: number | null
