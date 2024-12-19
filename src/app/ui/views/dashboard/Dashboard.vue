@@ -49,15 +49,33 @@
           >
             <div class="px-4 py-5 sm:p-6">
               <div class="flex items-center">
-                <div class="flex-shrink-0 h-12 w-12">
+                <div
+                  class="flex-shrink-0 h-12 w-12 rounded-full bg-gray-300 flex items-center justify-center"
+                >
                   <img
-                    class="h-12 w-12 rounded-full"
-                    :src="`https://via.placeholder.com/150?text=${customer.givenName.charAt(
-                      0
-                    )}`"
-                    alt=""
-                    loading="lazy"
+                    class="h-12 w-12 rounded-full object-cover"
+                    :src="`https://via.placeholder.com/150?text=${
+                      customer.givenName?.charAt(0) || ''
+                    }`"
+                    alt="Imagen del usuario"
+                    @error="handleImageError($event)"
                   />
+                  <svg
+                    v-if="isDefaultIcon"
+                    class="h-6 w-6 text-gray-500"
+                    xmlns="http://www.w3.org/2000/svg"
+                    fill="none"
+                    viewBox="0 0 24 24"
+                    stroke="currentColor"
+                    aria-hidden="true"
+                  >
+                    <path
+                      stroke-linecap="round"
+                      stroke-linejoin="round"
+                      stroke-width="2"
+                      d="M5.121 17.804A10.013 10.013 0 0112 15c2.5 0 4.847.928 6.879 2.453M15 12a3 3 0 11-6 0 3 3 0 016 0z"
+                    />
+                  </svg>
                 </div>
                 <div class="ml-4">
                   <h3 class="text-lg font-medium text-gray-900">
@@ -99,6 +117,7 @@
   const initialFilter = ref('')
   const docTypeFilter = ref('')
   const alphabet = Array.from('ABCDEFGHIJKLMNOPQRSTUVWXYZ')
+  const isDefaultIcon = ref(true)
 
   const filteredCustomers = computed(() => {
     return customersStore.items.filter((customer) => {
@@ -112,6 +131,12 @@
       return matchesInitial && matchesDocType
     })
   })
+
+  const handleImageError = (event: Event) => {
+    const img = event.target as HTMLImageElement
+    img.style.display = 'none'
+    isDefaultIcon.value = true
+  }
 
   onMounted(() => {
     bloc.getAllCustomers()
