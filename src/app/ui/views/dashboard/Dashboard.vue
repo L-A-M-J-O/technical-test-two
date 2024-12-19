@@ -11,7 +11,6 @@
             >
             <select
               v-model="initialFilter"
-              @change="applyFilters"
               class="mt-1 block w-full sm:w-48 border border-gray-300 rounded-md shadow-sm focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm"
             >
               <option value="">Todas</option>
@@ -26,12 +25,11 @@
             >
             <select
               v-model="docTypeFilter"
-              @change="applyFilters"
               class="mt-1 block w-full sm:w-48 border border-gray-300 rounded-md shadow-sm focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm"
             >
               <option value="">Todos</option>
               <option value="nif">NIF</option>
-              <option value="nie">NIE</option>
+              <option value="dni">DNI</option>
             </select>
           </div>
         </div>
@@ -58,6 +56,7 @@
                       0
                     )}`"
                     alt=""
+                    loading="lazy"
                   />
                 </div>
                 <div class="ml-4">
