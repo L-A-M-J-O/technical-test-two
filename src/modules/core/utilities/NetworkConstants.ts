@@ -1,3 +1,3 @@
 export const NetworkConstants = {
-  BASE_API: 'http://localhost:3000',
+  BASE_API: 'https://technical-test-two-back.onrender.com',
 }
