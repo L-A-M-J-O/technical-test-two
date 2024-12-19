@@ -6,9 +6,9 @@
         <h2 class="text-2xl font-semibold text-gray-800 mb-4">Usuarios</h2>
         <div class="mb-4 flex flex-col sm:flex-row sm:justify-between">
           <div>
-            <label class="block text-sm font-medium text-gray-700"
-              >Filtrar por inicial</label
-            >
+            <label class="block text-sm font-medium text-gray-700">
+              Filtrar por inicial
+            </label>
             <select
               v-model="initialFilter"
               class="mt-1 block w-full sm:w-48 border border-gray-300 rounded-md shadow-sm focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm"
@@ -20,9 +20,9 @@
             </select>
           </div>
           <div class="mt-4 sm:mt-0">
-            <label class="block text-sm font-medium text-gray-700"
-              >Filtrar por tipo de documento</label
-            >
+            <label class="block text-sm font-medium text-gray-700">
+              Filtrar por tipo de documento
+            </label>
             <select
               v-model="docTypeFilter"
               class="mt-1 block w-full sm:w-48 border border-gray-300 rounded-md shadow-sm focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm"
@@ -50,17 +50,9 @@
             <div class="px-4 py-5 sm:p-6">
               <div class="flex items-center">
                 <div
-                  class="flex-shrink-0 h-12 w-12 rounded-full bg-gray-300 flex items-center justify-center"
+                  class="flex-shrink-0 h-12 w-12 rounded-full bg-gray-400 flex items-center justify-center text-white font-bold text-xl"
                 >
-                  <img
-                    v-if="!customer.isImageError"
-                    class="h-12 w-12 rounded-full object-cover"
-                    :src="`https://via.placeholder.com/150?text=${
-                      customer.givenName?.charAt(0) || ''
-                    }`"
-                    @error="handleImageError(customer)"
-                  />
-                  <div v-else class="bg-gray-300 rounded-full"></div>
+                  {{ customer.givenName.charAt(0).toUpperCase() }}
                 </div>
                 <div class="ml-4">
                   <h3 class="text-lg font-medium text-gray-900">
@@ -104,26 +96,17 @@
   const alphabet = Array.from('ABCDEFGHIJKLMNOPQRSTUVWXYZ')
 
   const filteredCustomers = computed(() => {
-    return customersStore.items
-      .map((customer) => ({
-        ...customer,
-        isImageError: false,
-      }))
-      .filter((customer) => {
-        const matchesInitial =
-          !initialFilter.value ||
-          customer.givenName.charAt(0).toUpperCase() === initialFilter.value
+    return customersStore.items.filter((customer) => {
+      const matchesInitial =
+        !initialFilter.value ||
+        customer.givenName.charAt(0).toUpperCase() === initialFilter.value
 
-        const matchesDocType =
-          !docTypeFilter.value || customer.docType === docTypeFilter.value
+      const matchesDocType =
+        !docTypeFilter.value || customer.docType === docTypeFilter.value
 
-        return matchesInitial && matchesDocType
-      })
+      return matchesInitial && matchesDocType
+    })
   })
-
-  const handleImageError = (customer: any) => {
-    customer.isImageError = true
-  }
 
   onMounted(() => {
     bloc.getAllCustomers()
